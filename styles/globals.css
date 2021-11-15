@@ -10,7 +10,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
-* {
-  box-sizing: border-box;
+.site_card {
+  height: 100%;
+}
+.view_page {
+  padding-top: 50px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }

@@ -1,15 +1,18 @@
 import type { NextPage } from "next";
 import React, { useState, useEffect } from "react";
-import styles from "../styles/Home.module.css";
-import { SeoHead, Card } from "../src/components";
+import styles from "../../styles/Home.module.css";
+import {SeoHead } from "../../src/components";
 import Axios from "axios";
-import { baseUrl } from "../src/utils/Url";
+import { baseUrl } from "../../src/utils/Url";
+import { useRouter } from "next/router";
 
-const Home: NextPage = () => {
-  const [data, setData] = useState([]);
+const View: NextPage = () => {
+  const [data, setData] = useState({});
+  const router = useRouter();
+  const { id } = router.query;
 
   const callApi = async () => {
-    await Axios.get(`${baseUrl}`, {
+    await Axios.get(`${baseUrl}/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -26,16 +29,15 @@ const Home: NextPage = () => {
   useEffect(() => {
     callApi();
   }, []);
-
+  const { title, body }: any = data;
   return (
     <div>
       <div className={styles.container}>
         <SeoHead title="Home page" content="this is a test by andy" />
         <main className={styles.main}>
-          <div className="row">
-            {data.map((data: any) => (
-              <Card key={data.id} data={data} />
-            ))}
+          <div className="view_page">
+            <h1>{title}</h1>
+            <p>{body}</p>
           </div>
         </main>
       </div>
@@ -43,4 +45,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default View;
