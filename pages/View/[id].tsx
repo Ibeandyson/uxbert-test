@@ -1,34 +1,30 @@
 import type { NextPage } from "next";
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Home.module.css";
-import {SeoHead } from "../../src/components";
-import Axios from "axios";
-import { baseUrl } from "../../src/utils/Url";
+import { SeoHead } from "../../src/components";
 import { useRouter } from "next/router";
+import useGetSingleData from "../../src/hooks/useGetSingleData";
 
 const View: NextPage = () => {
   const [data, setData] = useState({});
   const router = useRouter();
-  const { id } = router.query;
+  const { id }: any = router.query;
+
+  const { getSingleData, sendingData } = useGetSingleData();
 
   const callApi = async () => {
-    await Axios.get(`${baseUrl}/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (!id) {
+      return;
+    } else {
+      await getSingleData(id);
+      await setData(sendingData);
+    }
   };
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [Object.keys(sendingData).length > 1, id]);
+
   const { title, body }: any = data;
   return (
     <div>

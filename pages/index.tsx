@@ -2,30 +2,21 @@ import type { NextPage } from "next";
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { SeoHead, Card } from "../src/components";
-import Axios from "axios";
-import { baseUrl } from "../src/utils/Url";
+import useGetAllData from "../src/hooks/useGetAllData";
 
 const Home: NextPage = () => {
   const [data, setData] = useState([]);
 
+  const { getAllData, sendingData } = useGetAllData();
+
   const callApi = async () => {
-    await Axios.get(`${baseUrl}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await getAllData();
+    await setData(sendingData);
   };
 
   useEffect(() => {
     callApi();
-  }, []);
+  }, [sendingData.length > 0]);
 
   return (
     <div>
