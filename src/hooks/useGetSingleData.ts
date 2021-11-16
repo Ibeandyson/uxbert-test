@@ -17,7 +17,6 @@ const useGetSingleData = () => {
         console.log(err)
     }
   };
-  console.log(state);
   return {
     sendingData: state,
     getSingleData,

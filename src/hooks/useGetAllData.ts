@@ -17,7 +17,6 @@ const useGetAllData = () => {
       console.log(err)
     }
   };
-  // console.log(state);
   return {
     sendingData: state,
     getAllData,
